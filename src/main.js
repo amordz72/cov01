@@ -4,11 +4,13 @@ import router from "./router";
 import store from "./store";
 
 import BootstrapVueCss from "bootstrap/dist/css/bootstrap.min.css";
-import bundle from "bootstrap/dist/js/bootstrap";
+import bootstrap from "bootstrap/dist/js/bootstrap";
+import jq from "jquery/dist/jquery";
 
 createApp(App)
   .use(store)
   .use(router)
   .use(BootstrapVueCss)
-  .use(bundle)
+  .use(bootstrap)
+  .use(jq)
   .mount("#app");
