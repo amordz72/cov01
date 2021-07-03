@@ -1,0 +1,112 @@
+<?php
+
+//action.php
+header("Access-Control-Allow-Origin: *");
+
+header("Content-Type: application/json; charset=UTF-8");
+$connect = new PDO("mysql:host=localhost;dbname=db_restaurant", "root", "");
+$received_data = json_decode(file_get_contents("php://input"));
+$data = array();
+if($received_data->action == 'fetchall')
+{
+ $query = "
+ SELECT * FROM users 
+ ORDER BY usId DESC
+ ";
+ $statement = $connect->prepare($query);
+ $statement->execute();
+ while($row = $statement->fetch(PDO::FETCH_ASSOC))
+ {
+  $data[] = $row;
+ }
+ echo json_encode($data);
+}
+if($received_data->action == 'insert')
+{
+    $data = array(
+        ':usName' => $received_data->usName,
+        ':tyNum' => $received_data->tyNum
+       );
+      
+       $query = "
+       INSERT INTO users 
+        `users`(  `usName`, `tyNum` )
+         VALUES ( :usName , :tyNum  )
+       ";
+
+ $statement = $connect->prepare($query);
+
+ $statement->execute($data);
+
+ $output = array(
+  'message' => 'Data Inserted'
+ );
+
+ echo json_encode($output);
+}
+if($received_data->action == 'fetchSingle')
+{
+ $query = "
+ SELECT * FROM tbl_sample 
+ WHERE id = '".$received_data->id."'
+ ";
+
+ $statement = $connect->prepare($query);
+
+ $statement->execute();
+
+ $result = $statement->fetchAll();
+
+ foreach($result as $row)
+ {
+  $data['id'] = $row['id'];
+  $data['first_name'] = $row['first_name'];
+  $data['last_name'] = $row['last_name'];
+ }
+
+ echo json_encode($data);
+}
+if($received_data->action == 'update')
+{
+ $data = array(
+  ':first_name' => $received_data->firstName,
+  ':last_name' => $received_data->lastName,
+  ':id'   => $received_data->hiddenId
+ );
+
+ $query = "
+ UPDATE tbl_sample 
+ SET first_name = :first_name, 
+ last_name = :last_name 
+ WHERE id = :id
+ ";
+
+ $statement = $connect->prepare($query);
+
+ $statement->execute($data);
+
+ $output = array(
+  'message' => 'Data Updated'
+ );
+
+ echo json_encode($output);
+}
+
+if($received_data->action == 'delete')
+{
+ $query = "
+ DELETE FROM tbl_sample 
+ WHERE id = '".$received_data->id."'
+ ";
+
+ $statement = $connect->prepare($query);
+
+ $statement->execute();
+
+ $output = array(
+  'message' => 'Data Deleted'
+ );
+
+ echo json_encode($output);
+}
+?>

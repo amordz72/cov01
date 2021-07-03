@@ -2,6 +2,7 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
     <Cov msg="Welcome to Your Vue.js App" />
+    <button class="btn btn-primary" @click="get">primary</button>
   </div>
 </template>
 
@@ -13,6 +14,11 @@ export default {
   name: "Home",
   components: {
     Cov,
+  },
+  methods: {
+    get: function () {
+      alert("gg");
+    },
   },
 };
 </script>
