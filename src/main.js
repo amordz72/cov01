@@ -1,8 +1,14 @@
-import "./plugins/axios";
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import "./plugins/bootstrap-vue";
-// .use(bootsrabCss)import bootsrabCss from "./plugins/bootstrap-vue";
-createApp(App).use(store).use(router).mount("#app");
+
+import BootstrapVueCss from "bootstrap/dist/css/bootstrap.min.css";
+import bundle from "bootstrap/dist/js/bootstrap";
+
+createApp(App)
+  .use(store)
+  .use(router)
+  .use(BootstrapVueCss)
+  .use(bundle)
+  .mount("#app");

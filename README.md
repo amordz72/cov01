@@ -30,3 +30,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### express sequelize mysql2 body-parser cors
 npm install express sequelize mysql2 body-parser cors --save
+
+#### npm install --save jquery
+npm install --save jquery
